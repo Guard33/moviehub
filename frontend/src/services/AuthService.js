@@ -1,16 +1,25 @@
 import axios from "axios";
 
-// same-origin: no base URL
-export const getMe  = () =>
-  axios.get("/api/auth/me", { withCredentials: true });
+// All auth endpoints are under /api/auth
+const AUTH = "/api/auth";
+
+export const register = (username, password) =>
+  axios.post(
+    `${AUTH}/register`,
+    { username, password },
+    { withCredentials: true }
+  );
+
+export const getMe = () =>
+  axios.get(`${AUTH}/me`, { withCredentials: true });
 
 export const login = (username, password) =>
   axios.post(
-    "/login",
-    new URLSearchParams({ username, password }), // form-encoded (required)
+    "/login",                                  // Spring Security formLogin
+    new URLSearchParams({ username, password }), // form-encoded body
     {
       withCredentials: true,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }
   );
 
