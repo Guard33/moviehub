@@ -1,12 +1,8 @@
 import axios from "axios";
 
-// movies do not strictly need cookies, but harmless if enabled
-const api = axios.create({
-  baseURL: "/",            // Nginx will proxy /movies -> backend:8080/movies
-  withCredentials: true,
-});
+const API = "/api/movies";
 
-export const getMovies    = () => api.get("/movies");
-export const addMovie     = (movie) => api.post("/movies", movie);
-export const deleteMovie  = (id) => api.delete(`/movies/${id}`);
-export const updateMovie  = (id, payload) => api.patch(`/movies/${id}`, payload);
+export const getMovies     = () => axios.get(API, { withCredentials: true });
+export const addMovie      = (movie) => axios.post(API, movie, { withCredentials: true });
+export const deleteMovie   = (id) => axios.delete(`${API}/${id}`, { withCredentials: true });
+export const updateMovie   = (id, payload) => axios.patch(`${API}/${id}`, payload, { withCredentials: true });

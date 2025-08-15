@@ -1,10 +1,18 @@
 import axios from "axios";
 
-// all auth calls include cookies (session) by default
-const auth = axios.create({
-  baseURL: "/api",         // Nginx will proxy /api -> backend:8080/api
-  withCredentials: true,   // send/receive cookies
-});
+// same-origin: no base URL
+export const getMe  = () =>
+  axios.get("/api/auth/me", { withCredentials: true });
 
-export const getMe  = () => auth.get("/auth/me");
-export const logout = () => auth.post("/logout", null);
+export const login = (username, password) =>
+  axios.post(
+    "/login",
+    new URLSearchParams({ username, password }), // form-encoded (required)
+    {
+      withCredentials: true,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
+
+export const logout = () =>
+  axios.post("/logout", null, { withCredentials: true });

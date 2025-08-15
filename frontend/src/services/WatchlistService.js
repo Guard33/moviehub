@@ -1,11 +1,7 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "/api/watchlist", // Nginx proxies /api -> backend:8080/api
-  withCredentials: true,
-});
+const WL = "/api/watchlist";
 
-export const getMyWatchlist      = () => api.get("/");
-export const addToWatchlist      = (id) => api.post(`/${id}`);
-export const removeFromWatchlist = (id) => api.delete(`/${id}`);
-
+export const getMyWatchlist      = () => axios.get(WL, { withCredentials: true });
+export const addToWatchlist      = (id) => axios.post(`${WL}/${id}`, null, { withCredentials: true });
+export const removeFromWatchlist = (id) => axios.delete(`${WL}/${id}`, { withCredentials: true });
