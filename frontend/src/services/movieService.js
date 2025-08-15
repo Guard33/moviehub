@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/movies'; // Update to your backend URL in production
+const API_URL = 'http://3.146.37.153:8080/movies'; // Update to your backend URL in production
 
 export const getMovies = () => axios.get(API_URL);
 

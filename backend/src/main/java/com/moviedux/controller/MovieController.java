@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/movies")
-@CrossOrigin(origins = "http://localhost:3000") // adjust if needed
+@CrossOrigin(origins = "http://3.146.37.153:3000") // adjust if needed
 public class MovieController {
 
     private final MovieRepository movieRepository;

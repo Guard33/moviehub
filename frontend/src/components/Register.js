@@ -36,7 +36,7 @@ export default function Register() {
     setLoading(true);
     try {
       // 1) create the account
-      await axios.post("http://localhost:8080/api/auth/register", {
+      await axios.post("http://backend:8080/api/auth/register", {
         username: username.trim(),
         password,
       });
@@ -46,7 +46,7 @@ export default function Register() {
       form.append("username", username.trim());
       form.append("password", password);
 
-      await axios.post("http://localhost:8080/login", form, {
+      await axios.post("http://backend:8080/login", form, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         withCredentials: true,
       });
