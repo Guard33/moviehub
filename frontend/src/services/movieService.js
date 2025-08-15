@@ -1,12 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://3.146.37.153:8080/movies'; // Update to your backend URL in production
+const BASE = process.env.REACT_APP_API_BASE || "http://3.146.37.153:8080";
+const api = axios.create({ baseURL: BASE, withCredentials: true });
 
-export const getMovies = () => axios.get(API_URL);
-
-export const addMovie = (movie) => axios.post(API_URL, movie);
-
-export const deleteMovie = (id) => axios.delete(`${API_URL}/${id}`);
-
-
-export const updateMovie = (id, payload) => axios.patch(`${API_URL}/${id}`, payload);
+export const getMovies       = () => api.get("/movies");
+export const addMovie        = (movie) => api.post("/movies", movie);
+export const deleteMovie     = (id) => api.delete(`/movies/${id}`);
+export const updateMovie     = (id, payload) => api.patch(`/movies/${id}`, payload);
