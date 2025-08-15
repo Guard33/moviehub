@@ -12,22 +12,23 @@ public class AppUser {
     @Indexed(unique = true)
     private String username;
 
-    private String passwordHash; // BCrypt
+    private String password; // Renamed from passwordHash
     private String role = "USER";
 
     public AppUser() {}
-    public AppUser(String username, String passwordHash) {
+
+    public AppUser(String username, String password) {
         this.username = username;
-        this.passwordHash = passwordHash;
+        this.password = password;
     }
 
     public String getId() { return id; }
     public String getUsername() { return username; }
-    public String getPasswordHash() { return passwordHash; }
+    public String getPassword() { return password; } // Updated
     public String getRole() { return role; }
 
     public void setId(String id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setPassword(String password) { this.password = password; } // Updated
     public void setRole(String role) { this.role = role; }
 }
