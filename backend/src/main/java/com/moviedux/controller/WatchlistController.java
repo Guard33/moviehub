@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/watchlist")
-@CrossOrigin(origins = "http://3.146.37.153:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://3.146.37.153", allowCredentials = "true")
 public class WatchlistController {
 
     private final WatchlistRepository repo;
