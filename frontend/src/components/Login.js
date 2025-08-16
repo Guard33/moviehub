@@ -23,7 +23,7 @@ export default function Login() {
     form.append("password", password);
 
     try {
-      await axios.post("http://backend:8080/login", form, {
+      await axios.post("/login", form, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         withCredentials: true,
       });

@@ -19,7 +19,6 @@ export default function Register() {
     setErr("");
     setOk("");
 
-    // simple client validation
     if (!username.trim() || !password) {
       setErr("Please enter a username and password.");
       return;
@@ -35,26 +34,25 @@ export default function Register() {
 
     setLoading(true);
     try {
-      // 1) create the account
-      await axios.post("http://backend:8080/api/auth/register", {
+      // 1) Register the user
+      await axios.post("/api/auth/register", {
         username: username.trim(),
         password,
       });
 
-      // 2) auto-login (form-urlencoded)
+      // 2) Auto-login with form-urlencoded format
       const form = new URLSearchParams();
       form.append("username", username.trim());
       form.append("password", password);
 
-      await axios.post("http://backend:8080/login", form, {
+      await axios.post("/login", form, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         withCredentials: true,
       });
 
-      // 3) reload so App fetches /api/auth/me and shows “Signed in as …”
+      // 3) Redirect after login
       window.location.href = redirectTo;
     } catch (e2) {
-      // map common backend errors
       const status = e2?.response?.status;
       if (status === 409) setErr("That username is already taken.");
       else if (status === 400) setErr("Missing username or password.");
