@@ -11,14 +11,20 @@ import java.util.List;
 public class MongoUserDetailsService implements UserDetailsService {
 
     private final AppUserRepository users;
-    public MongoUserDetailsService(AppUserRepository users) { this.users = users; }
+
+    public MongoUserDetailsService(AppUserRepository users) {
+        this.users = users;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var u = users.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new User(u.getUsername(), u.getPassword()
-(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole())));
+
+        return new User(
+            u.getUsername(),
+            u.getPassword(),
+            List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole()))
+        );
     }
 }
