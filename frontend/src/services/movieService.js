@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Movies controller is mounted at /movies (no /api prefix)
-const MOVIES = "/movies";
+const MOVIES = "/api/movies";
 
 export const getMovies = () =>
   axios.get(MOVIES, { withCredentials: true });
