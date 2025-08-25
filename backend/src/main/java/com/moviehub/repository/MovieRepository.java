@@ -1,6 +1,6 @@
-package com.moviedux.repository;
+package com.moviehub.repository;
 
-import com.moviedux.model.Movie;
+import com.moviehub.model.Movie;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.moviedux.security;
+package com.moviehub.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

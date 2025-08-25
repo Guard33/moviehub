@@ -1,7 +1,7 @@
-package com.moviedux.service;
+package com.moviehub.service;
 
-import com.moviedux.model.Movie;
-import com.moviedux.repository.MovieRepository;
+import com.moviehub.model.Movie;
+import com.moviehub.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

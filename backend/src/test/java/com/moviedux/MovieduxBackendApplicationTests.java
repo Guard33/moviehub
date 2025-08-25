@@ -1,10 +1,10 @@
-package com.moviedux;
+package com.moviehub;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MovieduxBackendApplicationTests {
+class MovieHubBackendApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,7 +1,7 @@
-package com.moviedux;
+package com.moviehub;
 
-import com.moviedux.model.Movie;
-import com.moviedux.repository.MovieRepository;
+import com.moviehub.model.Movie;
+import com.moviehub.repository.MovieRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 
 @SpringBootApplication
-public class MovieduxBackendApplication {
+public class MovieHubBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MovieduxBackendApplication.class, args);
+		SpringApplication.run(MovieHubBackendApplication.class, args);
 	}
 
 	@Bean

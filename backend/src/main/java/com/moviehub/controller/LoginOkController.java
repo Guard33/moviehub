@@ -1,5 +1,5 @@
-// src/main/java/com/moviedux/controller/LoginOkController.java
-package com.moviedux.controller;
+// src/main/java/com/moviehub/controller/LoginOkController.java
+package com.moviehub.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

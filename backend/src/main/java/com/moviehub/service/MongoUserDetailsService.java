@@ -1,6 +1,6 @@
-package com.moviedux.service;
+package com.moviehub.service;
 
-import com.moviedux.repository.AppUserRepository;
+import com.moviehub.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.moviedux.model;
+package com.moviehub.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

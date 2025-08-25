@@ -1,7 +1,7 @@
-package com.moviedux.controller;
+package com.moviehub.controller;
 
-import com.moviedux.model.Movie;
-import com.moviedux.repository.MovieRepository;
+import com.moviehub.model.Movie;
+import com.moviehub.repository.MovieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

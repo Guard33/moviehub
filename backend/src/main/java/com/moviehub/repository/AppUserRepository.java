@@ -1,6 +1,6 @@
-package com.moviedux.repository;
+package com.moviehub.repository;
 
-import com.moviedux.model.AppUser;
+import com.moviehub.model.AppUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 

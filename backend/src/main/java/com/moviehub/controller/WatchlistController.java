@@ -1,7 +1,7 @@
-package com.moviedux.controller;
+package com.moviehub.controller;
 
-import com.moviedux.model.WatchlistItem;
-import com.moviedux.repository.WatchlistRepository;
+import com.moviehub.model.WatchlistItem;
+import com.moviehub.repository.WatchlistRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

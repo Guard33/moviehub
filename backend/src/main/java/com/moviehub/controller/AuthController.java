@@ -1,7 +1,7 @@
-package com.moviedux.controller;
+package com.moviehub.controller;
 
-import com.moviedux.model.AppUser;
-import com.moviedux.repository.AppUserRepository;
+import com.moviehub.model.AppUser;
+import com.moviehub.repository.AppUserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;

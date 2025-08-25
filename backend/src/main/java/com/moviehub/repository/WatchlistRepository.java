@@ -1,6 +1,6 @@
-package com.moviedux.repository;
+package com.moviehub.repository;
 
-import com.moviedux.model.WatchlistItem;
+import com.moviehub.model.WatchlistItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
