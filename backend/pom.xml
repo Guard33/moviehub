@@ -11,8 +11,8 @@
 	<groupId>com.moviedux</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>moviedux-backend</name>
-	<description>Backend for moviedux movie list </description>
+	<name>moviehub-backend</name>
+	<description>Backend for moviehub movie list </description>
 	<url/>
 	<licenses>
 		<license/>

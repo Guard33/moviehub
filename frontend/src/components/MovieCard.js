@@ -2,44 +2,49 @@ import React from "react";
 import "../styles.css";
 
 export default function MovieCard({ movie, isWatchlisted, toggleWatchlist }) {
-  const handleError = (e) => {
-    e.target.src = "images/default.jpg";
+  const fallbackImage = "images/default.jpg";
+  const imageSource = `images/${movie.image}`;
+
+  const onImageFail = (e) => {
+    e.currentTarget.src = fallbackImage;
   };
 
-  const getRatingClass = (rating) => {
-    if (rating >= 8) return "rating-good";
-
-    if (rating >= 5 && rating < 8) return "rating-ok";
-
+  const classifyRating = (value) => {
+    const score = parseFloat(value);
+    if (score >= 8) return "rating-good";
+    if (score >= 5) return "rating-ok";
     return "rating-bad";
   };
 
+  const isChecked = Boolean(isWatchlisted);
+  const labelText = isChecked ? "In Watchlist" : "Add to Watchlist";
+
   return (
-    <div key={movie.id} className="movie-card">
+    <div className="movie-card" key={movie.id}>
       <img
-        src={`images/${movie.image}`}
+        src={imageSource}
         alt={movie.title}
-        onError={handleError}
+        onError={onImageFail}
       />
+
       <div className="movie-card-info">
         <h3 className="movie-card-title">{movie.title}</h3>
-        <div>
+
+        <div className="movie-meta">
           <span className="movie-card-genre">{movie.genre}</span>
-          <span className={`movie-card-rating ${getRatingClass(movie.rating)}`}>
+          <span className={`movie-card-rating ${classifyRating(movie.rating)}`}>
             {movie.rating}
           </span>
         </div>
+
         <label className="switch">
           <input
             type="checkbox"
-            checked={isWatchlisted}
+            checked={isChecked}
             onChange={() => toggleWatchlist(movie.id)}
-          ></input>
-
+          />
           <span className="slider">
-            <span className="slider-label">
-              {isWatchlisted ? "In Watchlist" : "Add to Watchlist"}
-            </span>
+            <span className="slider-label">{labelText}</span>
           </span>
         </label>
       </div>
