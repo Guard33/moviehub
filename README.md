@@ -4,7 +4,7 @@ Movie Hub is a full-stack watchlist web app designed to let users discover, save
 
 ---
 
-##  Live Demo
+##  Live Website
 
 View the website at:  
 **[Live Site](http://3.146.37.153)**
