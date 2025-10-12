@@ -1,11 +1,14 @@
 package com.moviehub.service;
 
+import com.moviehub.model.AppUser;
 import com.moviehub.repository.AppUserRepository;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collections;
 
 @Service
 public class MongoUserDetailsService implements UserDetailsService {
@@ -18,13 +21,8 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var u = users.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return new User(
-            u.getUsername(),
-            u.getPassword(),
-            List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole()))
-        );
+        AppUser user = users.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 }

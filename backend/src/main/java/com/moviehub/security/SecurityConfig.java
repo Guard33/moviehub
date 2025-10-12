@@ -1,7 +1,10 @@
 package com.moviehub.security;
 
+import com.moviehub.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,33 +26,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsSource()))
-
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/login", "/logout",
-                                "/api/auth/register", "/api/auth/me"
-                        ).permitAll()
-                        .requestMatchers("/movies", "/movies/**").permitAll()
-                        .requestMatchers("/api/watchlist/**").authenticated()
+                        .requestMatchers("/api/auth/**", "/movies", "/movies/**").permitAll()
                         .anyRequest().authenticated()
                 )
-
-                .formLogin(form -> form
-                        .loginProcessingUrl("/login")
-                        .successHandler((req, res, auth) -> res.setStatus(200))  // no redirect, SPA-friendly
-                        .failureHandler((req, res, ex) -> res.setStatus(401))
-                        .permitAll()
-                )
-
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
-                        .permitAll()
-                );
+                .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

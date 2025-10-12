@@ -1,27 +1,26 @@
 import axios from "axios";
 
-// All auth endpoints are under /api/auth
-const AUTH = "/api/auth";
+const API = "http://3.146.37.153/api/auth";
 
 export const register = (username, password) =>
-  axios.post(
-    `${AUTH}/register`,
-    { username, password },
-    { withCredentials: true }
-  );
+  axios.post(`${API}/register`, { username, password });
 
-export const getMe = () =>
-  axios.get(`${AUTH}/me`, { withCredentials: true });
+export const login = async (username, password) => {
+  const res = await axios.post(`${API}/login`, { username, password });
+  const token = res.data.token;
+  localStorage.setItem("jwt", token);  // save token locally
+  return token;
+};
 
-export const login = (username, password) =>
-  axios.post(
-    "/login",                                  // Spring Security formLogin
-    new URLSearchParams({ username, password }), // form-encoded body
-    {
-      withCredentials: true,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }
-  );
+export const getMe = async () => {
+  const token = localStorage.getItem("jwt");
+  if (!token) throw new Error("No token found");
+  const res = await axios.get(`${API}/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
 
-export const logout = () =>
-  axios.post("/logout", null, { withCredentials: true });
+export const logout = () => {
+  localStorage.removeItem("jwt");
+};
