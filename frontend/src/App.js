@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Modal from "./components/Modal";
 
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getMovies } from "./services/movieService";
 import { getMyWatchlist, addToWatchlist, removeFromWatchlist } from "./services/WatchlistService";
@@ -17,7 +17,7 @@ import { getMe, logout } from "./services/AuthService";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [watchlist, setWatchlist] = useState([]); // array of ids
+  const [watchlist, setWatchlist] = useState([]); // ids
   const [currentUser, setCurrentUser] = useState(null); // { username }
   const [needLoginOpen, setNeedLoginOpen] = useState(false);
 
@@ -35,9 +35,8 @@ function App() {
   // Check who is logged in & load their watchlist
   const fetchMeAndWatchlist = () => {
     getMe()
-      .then(res => {
-        const me = res.data;               // { username }
-        setCurrentUser(me);
+      .then(me => {                   // ← getMe() already returns data object
+        setCurrentUser(me);           // { username: "..." }
         return getMyWatchlist();
       })
       .then(res => {
@@ -46,7 +45,7 @@ function App() {
       })
       .catch(() => {
         setCurrentUser(null);
-        setWatchlist([]);                  // not logged in
+        setWatchlist([]);
       });
   };
   useEffect(fetchMeAndWatchlist, []);
@@ -61,10 +60,7 @@ function App() {
     const op = isIn ? removeFromWatchlist(movieId) : addToWatchlist(movieId);
 
     op.then(() => {
-      setWatchlist(prev => {
-        if (isIn) return prev.filter(id => id !== movieId);
-        return [...prev, movieId];
-      });
+      setWatchlist(prev => (isIn ? prev.filter(id => id !== movieId) : [...prev, movieId]));
     }).catch(err => {
       if (err?.response?.status === 401) setNeedLoginOpen(true);
       else console.error("Watchlist update failed:", err);
@@ -73,82 +69,78 @@ function App() {
 
   // Logout
   const handleLogout = () => {
-    logout()
-      .then(() => {
-        setCurrentUser(null);
-        setWatchlist([]);
-      })
-      .catch(console.error);
+    // JWT flow: just clear the token
+    try { logout(); } catch {}
+    setCurrentUser(null);
+    setWatchlist([]);
+    window.location.reload();
   };
 
   return (
-  <div className="App">
-    {/* Router wraps EVERYTHING that might use <Link> or useNavigate */}
-    <Router>
-      <div className="container">
-        <Header />
+    <div className="App">
+      <Router>
+        <div className="container">
+          <Header />
 
-        <nav>
-          <ul style={{ display:"flex", gap:12, alignItems:"center" }}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/watchlist">Watchlist</Link></li>
-            <div style={{ marginLeft:"auto", display:"flex", gap:12, alignItems:"center" }}>
-              {currentUser ? (
-                <>
-                  <span style={{ opacity:.85 }}>
-                    Signed in as <strong>{currentUser.username}</strong>
-                  </span>
-                  <button onClick={handleLogout}>Logout</button>
-                </>
-              ) : (
-                <>
-                  <li><Link to="/login">Login</Link></li>
-                  <li><Link to="/register">Register</Link></li>
-                </>
-              )}
-            </div>
-          </ul>
-        </nav>
+          <nav>
+            <ul style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/watchlist">Watchlist</Link></li>
+              <div style={{ marginLeft: "auto", display: "flex", gap: 12, alignItems: "center" }}>
+                {currentUser ? (
+                  <>
+                    <span style={{ opacity: .85 }}>
+                      Signed in as <strong>{currentUser.username}</strong>
+                    </span>
+                    <button onClick={handleLogout}>Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/register">Register</Link></li>
+                  </>
+                )}
+              </div>
+            </ul>
+          </nav>
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <MoviesGrid
-                watchlist={watchlist}
-                movies={movies}
-                toggleWatchlist={toggleWatchlist}
-              />
-            }
-          />
-          <Route
-            path="/watchlist"
-            element={
-              <Watchlist
-                watchlist={watchlist}
-                movies={movies}
-                toggleWatchlist={toggleWatchlist}
-              />
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <MoviesGrid
+                  watchlist={watchlist}
+                  movies={movies}
+                  toggleWatchlist={toggleWatchlist}
+                />
+              }
+            />
+            <Route
+              path="/watchlist"
+              element={
+                <Watchlist
+                  watchlist={watchlist}
+                  movies={movies}
+                  toggleWatchlist={toggleWatchlist}
+                />
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
 
-        <Footer />
-      </div>
-
-      {/* Modal MUST also be inside Router because it uses <Link> */}
-      <Modal open={needLoginOpen} onClose={() => setNeedLoginOpen(false)}>
-        <div style={{ fontSize:16 }}>You must be logged in to watchlist.</div>
-        <div style={{ marginTop:10 }}>
-          <Link to="/login">Go to Login</Link> &nbsp;|&nbsp; <Link to="/register">Create account</Link>
+          <Footer />
         </div>
-      </Modal>
-    </Router>
-  </div>
-);
 
+        <Modal open={needLoginOpen} onClose={() => setNeedLoginOpen(false)}>
+          <div style={{ fontSize: 16 }}>You must be logged in to watchlist.</div>
+          <div style={{ marginTop: 10 }}>
+            <Link to="/login">Go to Login</Link> &nbsp;|&nbsp; <Link to="/register">Create account</Link>
+          </div>
+        </Modal>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

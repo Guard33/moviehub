@@ -1,7 +1,7 @@
 // src/components/Login.js
 import { useState } from "react";
-import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { login } from "../services/AuthService";
 
 export default function Login() {
   const [username, setU] = useState("");
@@ -17,18 +17,10 @@ export default function Login() {
     e.preventDefault();
     setErr("");
     setLoading(true);
-
     try {
-      // ✅ Login through your backend API
-      const res = await axios.post("http://3.146.37.153/api/auth/login", {
-        username: username.trim(),
-        password,
-      });
-
-      // ✅ Store token and redirect
-      localStorage.setItem("jwt", res.data.token);
-      window.location.href = redirectTo;
-    } catch (e2) {
+      await login(username.trim(), password); // ← JWT login; saves token
+      window.location.href = redirectTo;      // reload so App reads /api/auth/me
+    } catch {
       setErr("Invalid username or password");
     } finally {
       setLoading(false);
@@ -76,11 +68,7 @@ export default function Login() {
           </button>
         </div>
 
-        <button
-          type="submit"
-          className="auth-btn"
-          disabled={loading || !username || !password}
-        >
+        <button type="submit" className="auth-btn" disabled={loading || !username || !password}>
           {loading ? "Signing in…" : "Sign in"}
         </button>
 
@@ -92,3 +80,4 @@ export default function Login() {
     </div>
   );
 }
+

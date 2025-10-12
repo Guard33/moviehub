@@ -40,17 +40,14 @@ public class SecurityConfig {
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
-                                                // Allow public access to login/register and movies
                                                 .requestMatchers(
                                                                 "/api/auth/register",
                                                                 "/api/auth/login",
-                                                                "/api/auth/me",
                                                                 "/movies",
                                                                 "/movies/**")
                                                 .permitAll()
-                                                // Everything else needs authentication
+                                                .requestMatchers("/api/auth/me").authenticated()
                                                 .anyRequest().authenticated())
-                                // Add JWT filter before username/password filter
                                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
@@ -68,5 +65,4 @@ public class SecurityConfig {
                 src.registerCorsConfiguration("/**", c);
                 return src;
         }
-
 }
