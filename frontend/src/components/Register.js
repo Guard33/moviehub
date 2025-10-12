@@ -40,15 +40,15 @@ export default function Register() {
         password,
       });
 
-      // 2) Auto-login with form-urlencoded format
-      const form = new URLSearchParams();
-      form.append("username", username.trim());
-      form.append("password", password);
+      // 2) Auto-login immediately after successful registration
+const loginRes = await axios.post("http://3.146.37.153/api/auth/login", {
+  username: username.trim(),
+  password,
+});
 
-      await axios.post("/login", form, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        withCredentials: true,
-      });
+localStorage.setItem("jwt", loginRes.data.token);
+window.location.href = redirectTo;
+
 
       // 3) Redirect after login
       window.location.href = redirectTo;
