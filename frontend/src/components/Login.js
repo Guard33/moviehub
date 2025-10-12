@@ -18,18 +18,17 @@ export default function Login() {
     setErr("");
     setLoading(true);
 
-    const form = new URLSearchParams();
-    form.append("username", username.trim());
-    form.append("password", password);
-
     try {
-      await axios.post("/login", form, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        withCredentials: true,
+      // ✅ Login through your backend API
+      const res = await axios.post("http://3.146.37.153/api/auth/login", {
+        username: username.trim(),
+        password,
       });
-      // force reload so App fetches /api/auth/me and shows “Signed in as …”
+
+      // ✅ Store token and redirect
+      localStorage.setItem("jwt", res.data.token);
       window.location.href = redirectTo;
-    } catch {
+    } catch (e2) {
       setErr("Invalid username or password");
     } finally {
       setLoading(false);

@@ -1,13 +1,17 @@
 import axios from "axios";
 
-// Watchlist is under /api/watchlist
-const WL = "/api/watchlist";
+const WL = "http://3.146.37.153/api/watchlist";
+
+const authHeader = () => {
+  const token = localStorage.getItem("jwt");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 export const getMyWatchlist = () =>
-  axios.get(WL, { withCredentials: true });
+  axios.get(WL, { headers: authHeader() });
 
 export const addToWatchlist = (id) =>
-  axios.post(`${WL}/${id}`, null, { withCredentials: true });
+  axios.post(`${WL}/${id}`, null, { headers: authHeader() });
 
 export const removeFromWatchlist = (id) =>
-  axios.delete(`${WL}/${id}`, { withCredentials: true });
+  axios.delete(`${WL}/${id}`, { headers: authHeader() });
