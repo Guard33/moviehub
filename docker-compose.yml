@@ -8,17 +8,24 @@ services:
     image: moviehub-backend:latest
     container_name: moviehub-backend
     environment:
-      # Pass your Atlas URI here (recommended)
-      - MONGODB_URI="mongodb+srv://movieadmin:StarryNight789.@moviehub.luusdud.mongodb.net/?retryWrites=true&w=majority&appName=Moviehub"
-      # Optional: Spring profile
+      # Spring Boot Mongo property name
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://movieadmin:StarryNight789.@moviehub.luusdud.mongodb.net/moviehub?retryWrites=true&w=majority&appName=Moviehub
+
+      #  JWT secret for JwtUtil.java
+      - JWT_SECRET=SuperStrongSecretKey
+
+      # Optional Spring profile
       - SPRING_PROFILES_ACTIVE=prod
-      # Optional explicit port/address (already defaulted in Dockerfile)
+
+      # Optional server configuration
       - SERVER_PORT=8080
       - SERVER_ADDR=0.0.0.0
+
+    ports:
+      - "8080:8080"
     networks:
       - moviehub-net
-    # uncomment if you want to see backend logs crash quickly when fails:
-    # restart: always
+    restart: always
 
   frontend:
     build:
@@ -29,10 +36,10 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80" # public port
+      - "80:80"
     networks:
       - moviehub-net
-    # restart: always
+    restart: always
 
 networks:
   moviehub-net:
