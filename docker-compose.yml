@@ -12,7 +12,7 @@ services:
       - SPRING_DATA_MONGODB_URI=mongodb+srv://movieadmin:StarryNight789.@moviehub.luusdud.mongodb.net/moviehub?retryWrites=true&w=majority&appName=Moviehub
 
       #  JWT secret for JwtUtil.java
-      - JWT_SECRET=SuperStrongSecretKey
+      - JWT_SECRET=Super34565656565565Strong454544554545456Secret45453345Key4566666443452189
 
       # Optional Spring profile
       - SPRING_PROFILES_ACTIVE=prod
