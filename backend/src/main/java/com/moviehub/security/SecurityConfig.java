@@ -58,15 +58,15 @@ public class SecurityConfig {
 
         @Bean
         public CorsConfigurationSource corsSource() {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://3.146.37.153"));
-                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-                config.setAllowCredentials(true);
-                config.setMaxAge(3600L); // cache preflight requests for 1 hour
-
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/**", config);
-                return source;
+                CorsConfiguration c = new CorsConfiguration();
+                c.setAllowedOrigins(List.of("http://3.146.37.153", "http://localhost:5173"));
+                c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                c.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+                c.setExposedHeaders(List.of("Authorization"));
+                c.setAllowCredentials(true);
+                UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
+                src.registerCorsConfiguration("/**", c);
+                return src;
         }
+
 }
