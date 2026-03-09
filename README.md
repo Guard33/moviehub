@@ -7,9 +7,8 @@ Movie Hub is a full-stack watchlist web app designed to let users discover, save
 ##  Live Website
 View the website at:  
 ~**[Live Site](http://3.146.37.153)**~
-No longer deployed as AWS credits have run out
 ---
-
+No longer deployed as AWS credits have run out
 ##  Architecture & Stack
 - **Backend**: Spring Boot REST API managing persistence and business logic  
 - **Database**: MongoDB Atlas  
